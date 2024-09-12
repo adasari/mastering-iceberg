@@ -1,0 +1,23 @@
+version: '3'
+services:
+  localstack:
+    image: artifactory.guidewire.com/hub-docker-remote/localstack/localstack:3.0.2
+    ports:
+      - "4566:4566"            # LocalStack Gateway
+      - "4510-4559:4510-4559"  # external services port range
+      - "8080:8080"
+    environment:
+      - DEBUG=${DEBUG:-1}
+      - SERVICES=s3
+      - LS_UI=1
+      - DEFAULT_REGION=us-west-2
+    volumes:
+      - "${LOCALSTACK_VOLUME_DIR:-./volume}:/var/lib/localstack"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    container_name: localstack
+    networks:
+      - localsetup
+
+networks:
+  localsetup:
+    driver: bridge
