@@ -97,7 +97,7 @@ public class Write {
         Map<String, String> properties = new HashMap<>();
         properties.put(CatalogProperties.CATALOG_IMPL, JdbcCatalog.class.getName());
         properties.put(CatalogProperties.URI, "jdbc:sqlite:file:/Users/ADASARI/work/learning/iceberg/catalog/catalogs-s3.db");
-        properties.put(CatalogProperties.WAREHOUSE_LOCATION, "s3://iceberg-warehouse");
+        properties.put(CatalogProperties.WAREHOUSE_LOCATION, "s3://iceberg-warehouse"); // add access key details. optional for localstack.
         properties.put("s3.endpoint", "http://localhost:4566");
         properties.put("s3.path-style-access", "true");
         properties.put("io-impl", "org.apache.iceberg.aws.s3.S3FileIO");
@@ -107,8 +107,8 @@ public class Write {
 
         Map<String, String> s3Properties = new HashMap<>();
         s3Properties.put(S3FileIOProperties.ENDPOINT, "http://localhost:4566");  // S3 endpoint
-        s3Properties.put(S3FileIOProperties.ACCESS_KEY_ID, "admin");
-        s3Properties.put(S3FileIOProperties.SECRET_ACCESS_KEY, "password");
+//        s3Properties.put(S3FileIOProperties.ACCESS_KEY_ID, "admin"); // unused in localstack env.
+//        s3Properties.put(S3FileIOProperties.SECRET_ACCESS_KEY, "password");
         s3Properties.put(S3FileIOProperties.PATH_STYLE_ACCESS, "true");
 
         // S3FileIO to write data files to s3.

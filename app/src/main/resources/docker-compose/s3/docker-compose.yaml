@@ -1,7 +1,7 @@
 version: '3'
 services:
   localstack:
-    image: artifactory.guidewire.com/hub-docker-remote/localstack/localstack:3.0.2
+    image: localstack/localstack:3.0.2
     ports:
       - "4566:4566"            # LocalStack Gateway
       - "4510-4559:4510-4559"  # external services port range
