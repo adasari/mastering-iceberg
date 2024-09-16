@@ -1,9 +1,9 @@
-package com.example.spark;
+package com.example.spark.local;
 
 import org.apache.spark.SparkConf;
 import org.apache.spark.sql.SparkSession;
 
-public class TimeTravel {
+public class CreateTable {
 
     public static void main(String[] args) {
 //        System.setProperty("hadoop.home.dir", "/Users/ADASARI/work/workspace/java/mastering-iceberg");
@@ -18,9 +18,10 @@ public class TimeTravel {
                 ;
         SparkSession spark = SparkSession.builder().appName("Iceberg Spark App").config(sparkConf).getOrCreate();
         // <catalog-name>.<namespace>.<table-name>
+        spark.sql("CREATE OR REPLACE TABLE test_catalog.test_namespace.employee (id INT, name STRING, city STRING, join_date DATE) " +
+                "USING iceberg PARTITIONED BY (city)");
 
-        // test_catalog.test_namespace.employee
-        spark.sql("select * from test_catalog.test_namespace.employee").show();
-        spark.sql("select * from test_catalog.test_namespace.employee.history").show();
+        spark.sql("CREATE OR REPLACE TABLE test_catalog.test_namespace.employee_partitioned_month (id INT, name STRING, city STRING, join_date DATE) " +
+                "USING iceberg PARTITIONED BY (months(join_date))");
     }
 }

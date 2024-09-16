@@ -1,9 +1,18 @@
-package com.example.spark;
+package com.example.spark.local;
 
 import org.apache.spark.SparkConf;
+import org.apache.spark.sql.Dataset;
+import org.apache.spark.sql.Row;
+import org.apache.spark.sql.RowFactory;
 import org.apache.spark.sql.SparkSession;
+import org.apache.spark.sql.catalyst.analysis.NoSuchTableException;
+import org.apache.spark.sql.types.DataTypes;
+import org.apache.spark.sql.types.StructType;
 
-public class CreateTable {
+import java.util.ArrayList;
+import java.util.List;
+
+public class ReadTable {
 
     public static void main(String[] args) {
 //        System.setProperty("hadoop.home.dir", "/Users/ADASARI/work/workspace/java/mastering-iceberg");
@@ -18,10 +27,8 @@ public class CreateTable {
                 ;
         SparkSession spark = SparkSession.builder().appName("Iceberg Spark App").config(sparkConf).getOrCreate();
         // <catalog-name>.<namespace>.<table-name>
-        spark.sql("CREATE OR REPLACE TABLE test_catalog.test_namespace.employee (id INT, name STRING, city STRING, join_date DATE) " +
-                "USING iceberg PARTITIONED BY (city)");
 
-        spark.sql("CREATE OR REPLACE TABLE test_catalog.test_namespace.employee_partitioned_month (id INT, name STRING, city STRING, join_date DATE) " +
-                "USING iceberg PARTITIONED BY (months(join_date))");
+        // test_catalog.test_namespace.employee
+        spark.sql("select * from test_catalog.test_namespace.employee").show();
     }
 }

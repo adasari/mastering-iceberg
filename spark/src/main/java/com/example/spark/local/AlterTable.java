@@ -1,4 +1,4 @@
-package com.example.spark;
+package com.example.spark.local;
 
 import org.apache.iceberg.exceptions.NoSuchTableException;
 import org.apache.spark.SparkConf;

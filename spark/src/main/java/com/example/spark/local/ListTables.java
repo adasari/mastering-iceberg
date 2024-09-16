@@ -1,18 +1,15 @@
-package com.example.spark;
+package com.example.spark.local;
 
+import org.apache.hadoop.conf.Configuration;
+import org.apache.iceberg.catalog.Namespace;
+import org.apache.iceberg.catalog.TableIdentifier;
+import org.apache.iceberg.hadoop.HadoopCatalog;
 import org.apache.spark.SparkConf;
-import org.apache.spark.sql.Dataset;
-import org.apache.spark.sql.Row;
-import org.apache.spark.sql.RowFactory;
 import org.apache.spark.sql.SparkSession;
-import org.apache.spark.sql.catalyst.analysis.NoSuchTableException;
-import org.apache.spark.sql.types.DataTypes;
-import org.apache.spark.sql.types.StructType;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class ReadTable {
+public class ListTables {
 
     public static void main(String[] args) {
 //        System.setProperty("hadoop.home.dir", "/Users/ADASARI/work/workspace/java/mastering-iceberg");
@@ -26,9 +23,10 @@ public class ReadTable {
                 .set("spark.sql.catalog.test_catalog.warehouse", "file:///Users/ADASARI/work/workspace/java/mastering-iceberg/test_catalog")
                 ;
         SparkSession spark = SparkSession.builder().appName("Iceberg Spark App").config(sparkConf).getOrCreate();
-        // <catalog-name>.<namespace>.<table-name>
-
-        // test_catalog.test_namespace.employee
-        spark.sql("select * from test_catalog.test_namespace.employee").show();
+        Configuration conf = new Configuration();
+        String warehousePath = "file:///Users/ADASARI/work/workspace/java/mastering-iceberg/test_catalog";
+        HadoopCatalog catalog = new HadoopCatalog(conf, warehousePath);
+        List<TableIdentifier> tables = catalog.listTables(Namespace.of("test_namespace"));
+        System.out.println(tables);
     }
 }

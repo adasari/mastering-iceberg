@@ -1,4 +1,4 @@
-package com.example.spark;
+package com.example.spark.local;
 
 import org.apache.spark.SparkConf;
 import org.apache.spark.sql.Dataset;
